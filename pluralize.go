@@ -1,13 +1,13 @@
 package plur
 
-import "fmt"
+import (
+	"fmt"
 
-type Number interface {
-	uint8 | uint16 | uint32 | uint64 | int8 | int16 | int | int32 | int64
-}
+	"golang.org/x/exp/constraints"
+)
 
 // Text returns the correct form of the word based on the number.
-func Text[N Number](number N, one, two, many string) string {
+func Text[N constraints.Integer](number N, one, two, many string) string {
 	if number%100 >= 11 && number%100 <= 14 {
 		return many
 	}
@@ -23,6 +23,6 @@ func Text[N Number](number N, one, two, many string) string {
 }
 
 // NumberText returns the correct form of the word based on the number with the number itself.
-func NumberText[N Number](number N, one, two, many string) string {
+func NumberText[N constraints.Integer](number N, one, two, many string) string {
 	return fmt.Sprintf("%d %s", number, Text(number, one, two, many))
 }
